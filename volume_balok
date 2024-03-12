@@ -1,0 +1,20 @@
+program volume_balok;
+var
+nama:String;
+panjang,lebar,tinggi,volume:real;
+
+begin
+  WriteLn('Menghitung volume balok');
+  write('nama          = ');
+  ReadLn(nama);
+  write('panjang balok = ');
+  ReadLn(panjang);
+  write('lebar balok   = ');
+  ReadLn(lebar);
+  write('tinggi balok  = ');
+  ReadLn(tinggi);
+  
+  volume := panjang*lebar*tinggi;
+  WriteLn('volume balok  = ', volume);
+  ReadLn();
+end.
