@@ -1,0 +1,56 @@
+program progaram_daftar_paket_dan_ongkir;
+
+uses 
+  crt;
+
+var
+  harga_paket, paket_A, paket_B, paket_C, harga_makanan,jarak, ongkir,jumlah, biaya_total: Integer;
+  nama_customer, paket: String;
+
+begin
+  writeln('Daftar Paket yang Tersedia ');
+  writeln('---------------------------');
+  Paket_A := 25000;
+  Paket_B := 30000;
+  Paket_C := 45000;
+  writeln(' Paket A: ', Paket_A);
+  writeln(' Paket B: ', Paket_B);
+  writeln(' Paket C: ', Paket_C);
+  writeln('---------------------------');
+begin
+    write('Nama customer                  : ');
+    readln(nama_customer);
+    write('Paket yang ingin anda beli     : ');
+    readln(paket);
+    if (paket = 'A') or (paket ='a') then
+    harga_makanan := 25000
+    else if (paket = 'B') or (paket ='b') then
+    harga_makanan := 30000
+    else if (paket = 'C') or (paket='c') then
+    harga_makanan := 45000
+    else 
+    writeln('Paket tidak ditemukan');
+    write('Jumlah paket yang anda beli    : ');
+    readln(jumlah);
+    harga_paket := harga_makanan * jumlah;
+    WriteLn('Total harga paket              : Rp', harga_paket);
+
+  writeln('----------------------------');
+  writeln('Daftar ongkir              ');
+  writeln('----------------------------');
+  writeln('1. <500m      = Gratis       ');
+  writeln('2. 500m-1,5km = Rp. 10.000   ');
+  writeln('3. >1,5km     = Rp. 20.000   ');
+  writeln('----------------------------');
+  write('Jarak rumah anda (dalam Km)    : ');
+  readln(jarak);
+  if jarak < 0.5 then
+    ongkir := 0
+  else if (jarak > 0.5) and (jarak < 1.5) then
+    ongkir := 10000
+  else
+    ongkir := 20000;
+  biaya_total := harga_paket + ongkir;
+  end;
+  writeln('Biaya total yang harus dibayar : Rp', biaya_total);
+end.
