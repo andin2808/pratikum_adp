@@ -1,0 +1,21 @@
+program kelipatan;
+var
+  count, i, j: integer;
+
+begin
+  count := 1;
+  for i := 1 to 10 do
+  begin
+   for j := 1 to 8 do
+    begin
+      if count mod 4 = 0 then
+        write('DOR ')
+      else
+        write(count, ' ');
+      count := count + 1;
+    end;
+    writeln;
+    if count > 80 then 
+    break;
+  end;
+end.
