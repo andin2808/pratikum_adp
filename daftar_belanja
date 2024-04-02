@@ -1,0 +1,74 @@
+program Daftar_Belanja;
+
+type
+  BarangData = record
+    Nama: string;
+    Harga: integer;
+  end;
+
+var
+  Barang: array[1..5] of BarangData;
+  Nama_Customer: string;
+  Total_Belanja: integer;
+  Total_Belanja2: real; 
+  Pilihan: string;
+  Jumlah_Barang: integer;
+  i, n: integer;
+
+begin
+  writeln('_________________');
+  writeln('|        Barang			         |    Harga		   |');
+  writeln('_________________');
+  writeln('| 1. lemari plastik  	   	| Rp. 99.000	 |');
+  writeln('| 2. kasur 90x200m	      | Rp. 460.000	|');
+  writeln('| 3. bantal dan guling  | Rp. 60.900 	|');
+  writeln('| 4. jemuran baju       | Rp. 63.500 	|');
+  writeln('| 5. rak sepatu	         | Rp. 58.900	 |');
+  writeln('_________________');
+
+  Barang[1].Nama := 'lemari plastik';
+  Barang[1].Harga := 99000;
+  Barang[2].Nama := 'kasur 90x200m';
+  Barang[2].Harga := 460000;
+  Barang[3].Nama := 'bantal dan guling';
+  Barang[3].Harga := 60900;
+  Barang[4].Nama := 'jemuran baju';
+  Barang[4].Harga := 63500;
+  Barang[5].Nama := 'rak sepatu';
+  Barang[5].Harga := 58900;
+
+  write('Masukkan nama Anda      : ');
+  readln(Nama_Customer);
+  Total_Belanja := 0;
+  writeln('_________________');
+  writeln('Ketik "Selesai" jika pilihan anda sudah semua');
+  
+  repeat
+    write('Pilih jenis barang yang anda inginkan : ');
+    readln(Pilihan);
+    if (Pilihan = 'Selesai') or (Pilihan = 'selesai') then
+      break;
+
+    val(Pilihan, i, Jumlah_Barang);
+    if (i >= 1) and (i <= 5) then
+    begin
+      write('Masukkan jumlah barang                : ');
+      readln(Jumlah_Barang);
+      Total_Belanja := Total_Belanja + Jumlah_Barang * Barang[i].Harga; 
+    end
+    else
+      writeln('Mohon maaf pilihan Anda tidak valid, silahkan masukkan kode yang tersedia');
+  until (Pilihan = 'Selesai') or (Pilihan = 'selesai');
+
+  if Total_Belanja > 500000 then
+  begin
+    Writeln('Anda Mendapatkan diskon 10%');
+    Total_Belanja2 := Total_Belanja * 0.9; 
+  end
+  else
+    Total_Belanja2 := Total_Belanja; 
+
+  writeln('Total belanja anda                    : Rp. ', Total_Belanja2:0:2);
+  writeln('Terima kasih ', Nama_Customer, ' atas belanjanya.');
+  readln();
+end.
