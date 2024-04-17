@@ -1,0 +1,30 @@
+program HitungNilaiF;
+
+const
+  N = 21; 
+
+var
+  nilai_x: array[1..N] of integer;
+  nilai_f: array[1..N] of real;
+  i: integer;
+
+function hitung_f(x: integer): real;
+begin
+  if x > 0 then
+    hitung_f := x*x + 2*x
+  else if x < 0 then
+    hitung_f := 1 / x
+  else
+    hitung_f := 10;
+end;
+
+begin
+   
+  for i := 1 to N do
+    nilai_x[i] := i - 11;
+  for i := 1 to N do
+    nilai_f[i] := hitung_f(nilai_x[i]);
+  writeln('|   x  |    f(x)   |');
+  for i := 1 to N do
+    writeln('| ', nilai_x[i]:4, ' | ', nilai_f[i]:9:3, ' |');
+end.
