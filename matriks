@@ -1,0 +1,49 @@
+n = int(input("Masukkan ukuran matriks (n): "))
+print("Masukkan nilai untuk matriks A (ukuran {}x{}):".format(n, n))
+matrix_a = []
+for i in range(n):
+    row = []
+    for j in range(n):
+        nilai = int(input("Masukkan nilai untuk baris {}, kolom {}: ".format(i+1, j+1)))
+        row.append(nilai)
+    matrix_a.append(row)
+
+print("Masukkan nilai untuk matriks B (ukuran {}x{}):".format(n, n))
+matrix_b = []
+for i in range(n):
+    row = []
+    for j in range(n):
+        nilai = int(input("Masukkan nilai untuk baris {}, kolom {}: ".format(i+1, j+1)))
+        row.append(nilai)
+    matrix_b.append(row)
+
+matrix_c = []
+for i in range(n):
+    row = []
+    for j in range(n):
+        total = 0
+        for k in range(n):
+            total += matrix_a[i][k] * matrix_b[k][j]
+        row.append(total)
+    matrix_c.append(row)
+
+transpose_a = [[matrix_a[j][i] for j in range(n)] for i in range(n)]
+transpose_b = [[matrix_b[j][i] for j in range(n)] for i in range(n)]
+
+matrix_d = [[transpose_a[i][j] + transpose_b[i][j] for j in range(n)] for i in range(n)]
+
+print("\nMatriks A:")
+for row in matrix_a:
+    print(row)
+
+print("\nMatriks B:")
+for row in matrix_b:
+    print(row)
+
+print("\nMatriks C (hasil perkalian matriks A dan B):")
+for row in matrix_c:
+    print(row)
+
+print("\nMatriks D (hasil penjumlahan matriks A transpose dan B transpose):")
+for row in matrix_d:
+    print(row)
