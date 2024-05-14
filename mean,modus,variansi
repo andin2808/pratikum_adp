@@ -1,0 +1,35 @@
+def input_data():
+    n = int(input("Masukkan jumlah data: "))
+    data = []
+    for i in range(n):
+        data.append(float(input(f"Masukkan data ke-{i+1}: ")))
+    return data
+
+def hitung_mean(data):
+    total = sum(data)
+    jumlah_data = len(data)
+    mean = total / jumlah_data
+    return mean
+
+def hitung_modus(data):
+    hitung = {}
+    for angka in data:
+        if angka in hitung:
+            hitung[angka] += 1
+        else:
+            hitung[angka] = 1
+    max_hitung = max(hitung.values())
+    modus = [angka for angka, hitung in hitung.items() if hitung == max_hitung]
+    return modus
+    
+def hitung_variance(data):
+    mean = hitung_mean(data)
+    jumlah_data = len(data)
+    kuadrat_data = [(x - mean) ** 2 for x in data]
+    variance = sum(kuadrat_data) / (jumlah_data-1)
+    return variance
+
+data = input_data()
+print("Mean:", hitung_mean(data))
+print("Modus:", hitung_modus(data))
+print("Variance:", hitung_variance(data))
