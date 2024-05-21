@@ -1,0 +1,73 @@
+# Fungsi untuk menambah data film
+def tambah_film(judul, nama_penulis_skenario, nama_sutradara, tahun_rilis):
+    with open("database_film.txt", "a") as file:
+        file.write(f"{judul},{nama_penulis_skenario},{nama_sutradara},{tahun_rilis}\n")
+    print("Data film berhasil ditambahkan.")
+
+# Fungsi untuk menghapus data film berdasarkan judul
+def hapus_film(judul):
+    with open("database_film.txt", "r") as file:
+        lines = file.readlines()
+    with open("database_film.txt", "w") as file:
+        for line in lines:
+            if line.split(",")[0] != judul:
+                file.write(line)
+    print("Data film berhasil dihapus.")
+
+# Fungsi untuk mengedit data film berdasarkan judul
+def edit_film(judul, nama_penulis_skenario, nama_sutradara, tahun_rilis):
+    with open("database_film.txt", "r") as file:
+        lines = file.readlines()
+    with open("database_film.txt", "w") as file:
+        for line in lines:
+            if line.split(",")[0] == judul:
+                file.write(f"{judul},{nama_penulis_skenario},{nama_sutradara},{tahun_rilis}\n")
+            else:
+                file.write(line)
+    print("Data film berhasil diubah.")
+    film_dict[judul] = (nama_penulis_skenario, nama_sutradara, tahun_rilis)
+
+# Fungsi untuk menampilkan seluruh data film
+def tampilkan_semua_film():
+    if film_dict:
+        print("Data Film:")
+        for judul, data in film_dict.items():
+            print(f"Judul: {judul}, Penulis Skenario: {data[0]}, Sutradara: {data[1]}, Tahun Rilis: {data[2]}")
+    else:
+        print("Database film kosong.")
+               
+# Dictionary untuk menyimpan data film
+film_dict = {}
+
+while True:
+    print("\nMenu:")
+    print("1. Tambah film")
+    print("2. Hapus film")
+    print("3. Edit film")
+    print("4. Tampilkan semua film")
+    print("5. Keluar")
+
+    pilihan = input("Pilih menu: ")
+
+    if pilihan == "1":
+        judul = input("Masukkan judul film: ")
+        nama_penulis_skenario = input("Masukkan nama penulis skenario: ")
+        nama_sutradara = input("Masukkan nama sutradara: ")
+        tahun_rilis = input("Masukkan tahun rilis: ")
+        tambah_film(judul, nama_penulis_skenario, nama_sutradara, tahun_rilis)
+    elif pilihan == "2":
+        judul = input("Masukkan judul film yang ingin dihapus: ")
+        hapus_film(judul)
+    elif pilihan == "3":
+        judul = input("Masukkan judul film yang ingin diubah: ")
+        nama_penulis_skenario = input("Masukkan nama penulis skenario baru: ")
+        nama_sutradara = input("Masukkan nama sutradara baru: ")
+        tahun_rilis = input("Masukkan tahun rilis baru: ")
+        edit_film(judul, nama_penulis_skenario, nama_sutradara, tahun_rilis)
+    elif pilihan == "4":
+        tampilkan_semua_film()
+    elif pilihan == "5":
+        print("Terima kasih!")
+        break
+    else:
+        print("Pilihan tidak valid. Silakan pilih menu yang benar.")
