@@ -1,0 +1,206 @@
+from termcolor import colored
+import os
+os.system("cls")
+
+produk_list = [
+    {"nama": "Somethinc Paket Lengkap Calm Down Series", "harga": 279080, "jumlah": 10, "ulasan": []},
+    {"nama": "Somethinc Low pH Gentle Jelly Cleanser", "harga": 24398, "jumlah": 9, "ulasan": []},
+    {"nama": "Somethinc 5% Niacinamide", "harga": 79000, "jumlah": 5, "ulasan": []},
+    {"nama": "Somethinc Sunscreen UV Watery", "harga": 28808, "jumlah": 8, "ulasan": []},
+    {"nama": "Somethinc Cushion", "harga": 119000, "jumlah": 5, "ulasan": []},
+    {"nama": "Somethinc Loose Powder", "harga": 119000, "jumlah": 9, "ulasan": []},
+    {"nama": "Somethinc Mascara", "harga": 69000, "jumlah": 5, "ulasan": []},
+    {"nama": "Somethinc Lip Gloss", "harga": 70000, "jumlah": 10, "ulasan": []},
+    {"nama": "Somethinc Powder Blush On", "harga": 59000, "jumlah": 7, "ulasan": []},
+    {"nama": "Somethinc Eyeliner", "harga": 59000, "jumlah": 9, "ulasan": []},
+    {"nama": "Somethinc MakeUp Setting Spray", "harga": 62000, "jumlah": 15, "ulasan": []},
+    {"nama": "Somethinc Eyeshadow", "harga": 142000, "jumlah": 9, "ulasan": []},
+    {"nama": "Somethinc Micellar Cleansing Water", "harga": 70000, "jumlah": 15, "ulasan": []},    
+    {"nama": "Somethinc LipStick", "harga": 96000, "jumlah": 10, "ulasan": []},
+    {"nama": "Somethinc Eyebrow", "harga": 49000, "jumlah": 13, "ulasan": []},
+    {"nama": "Somethinc MakeUp Individual Brush", "harga": 29000, "jumlah": 8, "ulasan": []}
+]
+def daftar_produk(produk_list):
+    print("\nProduk yang Tersedia:")
+    if not produk_list:
+        print("Tidak ada produk yang tersedia.")
+    else:
+        headers = ["No", "Nama Produk", "Harga", "Jumlah"]
+        colored_headers = [
+            colored(headers[0], 'white', 'on_blue'),
+            colored(headers[1], 'white', 'on_blue'),
+            colored(headers[2], 'white', 'on_blue'),
+            colored(headers[3], 'white', 'on_blue')
+        ]
+        print("-" * 86)
+        print(f" | {colored_headers[0]:<18} | {colored_headers[1]:<65} | {colored_headers[2]:<25} | {colored_headers[3]:<19} |")
+        print("-" * 86)
+        
+        nomor_produk = 1
+        for produk in produk_list:
+            nama_produk_colored = colored(produk["nama"], 'blue')
+            harga_formatted = colored(f"Rp.{produk['harga']:,.0f}", 'cyan')
+            jumlah_formatted = colored(f"{produk['jumlah']}", 'magenta')
+            print(f" | {nomor_produk:<4} | {nama_produk_colored:<60} | {harga_formatted:<20} | {jumlah_formatted:<15} |")
+            nomor_produk += 1
+        print("-" * 86)
+
+def metode_pembayaran():
+    print(colored("Pilih metode pembayaran:", 'yellow'))
+    print("1. Tunai")
+    print("2. Transfer")
+    pilihan = input("Masukkan nomor metode pembayaran: ")
+    if pilihan == '1':
+        return "tunai"
+    elif pilihan == '2':
+        return "transfer"
+    else:
+        print("Pilihan tidak valid! Menggunakan tunai sebagai default.")
+        return "tunai"
+
+def beli_produk(produk_list, pembelian):
+    total_harga = 0
+    for produk in produk_list:
+        if produk["nama"] in pembelian:
+            jumlah = pembelian[produk["nama"]]
+            if produk["jumlah"] >= jumlah:
+                produk["jumlah"] -= jumlah
+                total_harga += produk["harga"] * jumlah
+            else:
+                print(f"Stok '{produk['nama']}' tidak mencukupi! Hanya tersedia {produk['jumlah']}.")
+                return total_harga,""
+    metode_pembayaran_pilihan = metode_pembayaran()
+    total_harga_colored = colored(f"Rp.{total_harga:,.0f}", 'cyan')
+    if metode_pembayaran_pilihan == "tunai":
+        print(f"Total harga pembelian Anda adalah {total_harga_colored}") 
+        print("Silakan bayar jumlah tersebut di kasir")
+    elif metode_pembayaran_pilihan == "transfer":
+        print(f"Total harga pembelian Anda adalah {total_harga_colored}")
+        print("Silakan transfer jumlah tersebut ke rekening bank berikut: 123-456-789")
+    return total_harga,metode_pembayaran_pilihan
+
+def ulasan_produk(produk_list, nama_produk, username, rating, komentar):
+    ulasan = {"username": username, "rating": rating, "komentar": komentar}
+    for produk in produk_list:
+        if produk["nama"] == nama_produk:
+            produk["ulasan"].append(ulasan)
+            with open("ulasan.txt", "a") as file:
+                file.write(f"{nama_produk}|{username}|{rating}|{komentar}\n")
+            print("Ulasan berhasil ditambahkan.")
+            return
+
+def tampilkan_ulasan(produk_list,nama_produk):
+    ulasan_ditemukan = False
+    try:
+        with open("ulasan.txt", "r") as file:
+            for line in file:
+                data = line.strip().split("|")
+                if data[0] == nama_produk:
+                    if not ulasan_ditemukan:
+                        print(f"\nUlasan untuk produk {nama_produk}:")
+                        ulasan_ditemukan = True
+                    print(f"Nama Pengguna : {data[1]}")
+                    print(f"Rating        : {data[2]}")
+                    print(f"Komentar      : {data[3]}")
+    except FileNotFoundError:
+        pass
+
+    if not ulasan_ditemukan:
+        print("Belum ada ulasan untuk produk ini.")
+
+def dapatkan_nama_produk_dari_pengguna(produk_list, aksi):
+    daftar_produk(produk_list)
+    while True:
+        pilihan_produk = input(f"Masukkan nomor produk yang ingin Anda {aksi} atau ketik 'no': ")
+        if pilihan_produk.lower() == 'no':
+            return ""
+
+        if pilihan_produk.isdigit():
+            nomor_produk = int(pilihan_produk)
+            if 1 <= nomor_produk <= len(produk_list):
+                return produk_list[nomor_produk - 1]["nama"]
+        print("Nomor produk tidak valid!")
+
+def cetak_struk(pembelian, total_harga, metode_pembayaran):
+    print("\n" + colored("STRUK PEMBELIAN", 'white', 'on_blue'))
+    print("-" * 80)
+    print(f"| {'Nama Produk':<42} | {'Jumlah':<13} | {'Harga':<14} |")
+    print("-" * 80)
+    for nama_produk, jumlah in pembelian.items():
+        for produk in produk_list:
+            if produk["nama"] == nama_produk:
+                harga_total = produk["harga"] * jumlah
+                print(f"| {nama_produk:<42} | {jumlah:<13} | {harga_total:<14,.0f} |")
+    print("-" * 80)
+    total_harga_colored = colored(f"Rp.{total_harga:,.0f}", 'yellow')
+    print(f"| {'Total Harga':<58} | {total_harga_colored:<23} |")
+    print("-" * 80)
+    if metode_pembayaran == "tunai":
+        print("| Metode Pembayaran: Tunai                                                    |")
+    elif metode_pembayaran == "transfer":
+        print("| Metode Pembayaran: Transfer                                                 |")
+        print("| Silakan transfer jumlah tersebut ke rekening bank berikut: 123-456-789      |")
+    print("-" * 80)
+
+def main():
+    total_harga_akhir = 0
+    pembelian_final = {} 
+    while True:
+        print("\n" + colored("Selamat Datang di Toko Skincare dan Make-Up!", 'white', 'on_blue'))
+        print(colored("Selamat berbelanja!\n", 'blue'))
+        print("1. Daftar Produk")
+        print("2. Beli Produk")
+        print("3. Ulas Produk")
+        print("4. Lihat Ulasan Produk")
+        print("5. Cetak Struk belanja dan Keluar")
+        pilihan = input(colored("Pilih opsi: ", 'yellow'))
+
+        if pilihan == '1':
+            daftar_produk(produk_list)
+        elif pilihan == '2':
+            pembelian = {}
+            while True:
+                nama_produk = dapatkan_nama_produk_dari_pengguna(produk_list, 'beli')
+                if nama_produk == "":
+                    break
+                for produk in produk_list:
+                    if produk["nama"] == nama_produk:
+                        jumlah_barang = int(input('Masukkan jumlah barang: '))
+                        if jumlah_barang > 0:
+                            pembelian[nama_produk] = jumlah_barang
+                        else:
+                            print('Jumlah barang harus lebih dari 0!')
+                        break
+
+            if pembelian:
+                total_harga, metode_pembayaran = beli_produk(produk_list, pembelian)
+                if total_harga: 
+                    total_harga_akhir += total_harga
+                    metode_pembayaran_terakhir = metode_pembayaran
+                    for produk, jumlah in pembelian.items():
+                        if produk in pembelian_final:
+                            pembelian_final[produk] += jumlah
+                        else:
+                            pembelian_final[produk] = jumlah
+
+        elif pilihan == '3':
+            nama_produk = dapatkan_nama_produk_dari_pengguna(produk_list, 'ulas')
+            if nama_produk != "":
+                username = input("Masukkan nama pengguna Anda: ")
+                rating = int(input("Masukkan rating Anda (1-5): "))
+                if 1 <= rating <= 5:
+                    komentar = input("Masukkan komentar Anda: ")
+                    ulasan_produk(produk_list, nama_produk, username, rating, komentar)
+                else:
+                    print("Rating tidak valid! Harap masukkan nomor yang valid antara 1 dan 5.")
+        elif pilihan == '4':
+            nama_produk = dapatkan_nama_produk_dari_pengguna(produk_list, 'lihat ulasan')
+            if nama_produk != "":
+                tampilkan_ulasan(produk_list, nama_produk)
+        elif pilihan == '5':
+            cetak_struk(pembelian_final, total_harga_akhir,metode_pembayaran_terakhir)
+            print(colored("Terima Kasih telah mengunjungi Toko Skincare dan Make-Up!", 'white','on_blue'))
+            break
+        else:
+            print("Pilihan tidak valid! Harap coba lagi.")
+main()
